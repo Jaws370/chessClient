@@ -1,8 +1,8 @@
 import React from 'react';
-import io from 'socket.io-client';
+import { io, Socket } from 'socket.io-client';
 
-const socket = io('http://localhost:3000'); // Replace with your server URL
+const socket: Socket = io('http://localhost:3000'); // Replace with your server URL
 
-const SocketContext = React.createContext(socket);
+const SocketContext = React.createContext<Socket>(socket);
 
 export default SocketContext;

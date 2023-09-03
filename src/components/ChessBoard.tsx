@@ -1,10 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+
+import { Socket } from 'socket.io-client';
+
+import SocketContext from '../socketContext';
 
 import './ChessBoard.css';
 
 import { ChessPiece } from './ChessPiece';
+import { ChessBoardProps } from '../types/ChessBoardProps';
 
-export const ChessBoard: React.FC = () => {
+export const ChessBoard: React.FC<ChessBoardProps> = (props) => {
+
+    const socket: Socket = useContext(SocketContext);
 
     const SPACES = 64;
 
@@ -68,7 +75,7 @@ export const ChessBoard: React.FC = () => {
                 data-color={IS_WHITE}
                 data-piece={board[i]}>
 
-                <ChessPiece id={COLLUMN + ROW} type={board[i]} />
+                <ChessPiece id={COLLUMN + ROW} type={board[i]} isWhite={IS_WHITE} />
 
             </div>
 

@@ -1,4 +1,5 @@
 export type ChessPieceProps = {
     id: string,
-    type: string
+    type: string,
+    isWhite: string
 }

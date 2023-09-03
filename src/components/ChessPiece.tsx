@@ -1,5 +1,5 @@
 import React from 'react';
-import { ChessPieceProps } from '../types/ChessPiece';
+import { ChessPieceProps } from '../types/ChessPieceProps';
 
 import './ChessPiece.css';
 
