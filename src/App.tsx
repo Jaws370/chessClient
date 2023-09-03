@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import SocketContext from './socketContext';
-import './App.css';
+
 import { ChessBoard } from './components/ChessBoard';
+
+import SocketContext from './socketContext';
 import { onConnect, onDisconnect } from './handlers/connection-handlers';
 import { ServerStatus } from './types/serverStatus';
 import { unpack } from './packaging/unpacking';
+
+import './App.css';
 
 const App: React.FC = () => {
 
