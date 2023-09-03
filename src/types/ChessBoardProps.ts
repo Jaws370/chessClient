@@ -1,3 +1,6 @@
+import { ServerStatus } from "./serverStatus"
+
 export type ChessBoardProps = {
-    isConnected: boolean
+    isConnected: boolean,
+    serverStatus: ServerStatus | undefined
 }

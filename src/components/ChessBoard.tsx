@@ -8,8 +8,11 @@ import './ChessBoard.css';
 
 import { ChessPiece } from './ChessPiece';
 import { ChessBoardProps } from '../types/ChessBoardProps';
+import { ClientStatus } from '../types/clientStatus';
 
-export const ChessBoard: React.FC<ChessBoardProps> = (props) => {
+import { pack } from '../packaging/packing';
+
+export const ChessBoard: React.FC<ChessBoardProps> = ({ serverStatus, isConnected }) => {
 
     const socket: Socket = useContext(SocketContext);
 
@@ -19,30 +22,43 @@ export const ChessBoard: React.FC<ChessBoardProps> = (props) => {
 
     var chessBoard = [];
 
-    const [board, setBoard] = useState('rnbqkbnrpppppppp                                PPPPPPPPRNBQKBNR');
+    const [board, setBoard] = useState<string>('rnbqkbnrpppppppp                                PPPPPPPPRNBQKBNR');
 
     const [moveCouple, setMoveCouple] = useState<string[]>([]);
 
-    const [previousMoves, setPreviousMoves] = useState([]);
+    const [previousMoves, setPreviousMoves] = useState<string[]>([]);
+
+    useEffect(() => {
+        if (serverStatus) {
+            setBoard(serverStatus.board);
+            setPreviousMoves(serverStatus.previousMoves);
+        }
+    }, [serverStatus]);
 
     useEffect(() => {
 
-        /*if (moveCouple.length === 2) {
+        if (moveCouple.length === 2) {
 
-            const [isGoodMove, newBoard, newPreviousMoves] = checkMove(moveCouple[0], moveCouple[1], rawBoard, previousMoves);
-
-            if (isGoodMove) {
-
-                setBoard(newBoard);
-                setPreviousMoves(newPreviousMoves);
-
+            const clientStatus: ClientStatus = {
+                clientNumber: 1,
+                isWhite: true,
+                move: {
+                    old: moveCouple[0],
+                    new: moveCouple[1]
+                },
+                board: board,
+                previousMoves: previousMoves
             }
+
+            console.log('sending move...');
+            
+            socket.emit('game:move', pack(clientStatus));
 
             setMoveCouple([]);
 
-        }*/
+        }
 
-    }, [moveCouple, board, previousMoves])
+    }, [moveCouple, board])
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
 
