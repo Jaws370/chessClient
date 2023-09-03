@@ -1,25 +1,16 @@
 import React from 'react';
+import SocketContext from './socketContext';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={'http://www.w3.org/2000/svg'} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App: React.FC = () => {
+
+    const socket = React.useContext(SocketContext);
+
+    return (
+        <SocketContext.Provider value={socket}>
+            <h1>Hello World</h1>
+        </SocketContext.Provider>
+    );
 }
 
 export default App;
