@@ -4,10 +4,11 @@ import { ChessBoard } from './components/ChessBoard';
 
 import SocketContext from './socketContext';
 import { onConnect, onDisconnect } from './handlers/connection-handlers';
-import { ServerStatus } from './types/serverStatus';
-import { unpack } from './packaging/unpacking';
+import { ServerStatus } from './types/ServerStatus';
+import { unpackSS, unpackSP } from './packaging/unpacking';
 
 import './App.css';
+import { StarterPackage } from './types/StarterPackage';
 
 const App: React.FC = () => {
 
@@ -21,6 +22,8 @@ const App: React.FC = () => {
     }
 
     const [isConnected, setIsConnected] = useState<boolean>(socket.connected);
+    const [isWhite, setIsWhite] = useState<boolean>(false);
+    const [clientNumber, setClientNumber] = useState<number>(0);
     const [serverStatus, setServerStatus] = useState<ServerStatus>(serverStatusDefault);
 
     useEffect(() => {
@@ -28,8 +31,16 @@ const App: React.FC = () => {
             setIsConnected(onConnect.call(socket));
         });
 
+        socket.on('status:start', (rawStarterPackage: string) => {
+            const starterPackage: StarterPackage = unpackSP(rawStarterPackage);
+
+            setIsWhite(starterPackage.isWhite);
+            setClientNumber(starterPackage.clientNumber);
+            setServerStatus(starterPackage.serverStatus);
+        });
+
         socket.on('status:update', (rawServerStatus: string) => {
-            setServerStatus(unpack(rawServerStatus));
+            setServerStatus(unpackSS(rawServerStatus));
         });
 
         socket.on('disconnect', () => {
@@ -47,7 +58,7 @@ const App: React.FC = () => {
         <SocketContext.Provider value={socket}>
             <div id='app'>
 
-                <ChessBoard isConnected={ isConnected } serverStatus={ serverStatus } />
+                <ChessBoard isConnected={ isConnected } isWhite={ isWhite } clientNumber={ clientNumber } serverStatus={ serverStatus } />
 
             </div>
         </SocketContext.Provider>

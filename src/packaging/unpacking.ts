@@ -1,5 +1,10 @@
-import { ServerStatus } from "../types/serverStatus";
+import { ServerStatus } from "../types/ServerStatus";
+import { StarterPackage } from "../types/StarterPackage";
 
-export const unpack = (data: string): ServerStatus => {
+export const unpackSS = (data: string): ServerStatus => {
+    return JSON.parse(data);
+}
+
+export const unpackSP = (data: string): StarterPackage => {
     return JSON.parse(data);
 }
