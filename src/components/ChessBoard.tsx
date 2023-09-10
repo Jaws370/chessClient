@@ -18,22 +18,11 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({ serverStatus, isConnecte
 
     const socket: Socket = useContext(SocketContext);
 
-    const [board, setBoard] = useState<string>('rnbqkbnrpppppppp                                PPPPPPPPRNBQKBNR');
-    const [nextToMove, setNextToMove] = useState<number>(0);
+    const board: string = serverStatus?.board || 'rnbqkbnrpppppppp                                PPPPPPPPRNBQKBNR';
+    const nextToMove: number = serverStatus?.clientToMove || 0;
     const [moveCouple, setMoveCouple] = useState<string[]>([]);
 
     const ALPHABET_INDEX: string[] = ["a", "b", "c", "d", "e", "f", "g", "h"];
-
-    useEffect(() => {
-
-        if (serverStatus) {
-
-            setBoard(serverStatus.board);
-            setNextToMove(serverStatus.clientToMove);
-
-        }
-
-    }, [serverStatus]);
 
     useEffect(() => {
 
@@ -57,7 +46,7 @@ export const ChessBoard: React.FC<ChessBoardProps> = ({ serverStatus, isConnecte
 
         }
 
-    }, [moveCouple, board]);
+    }, [moveCouple]);
 
     const handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>): void => {
 
