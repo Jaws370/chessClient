@@ -11,11 +11,11 @@
     height: 100%;
 }
 
-.square[data-color="white"] {
+.square[data-color=true] {
     background-color: rgb(238, 238, 210);
 }
 
-.square[data-color="black"] {
+.square[data-color=false] {
     background-color: transparent;
 }
 .square[data-highlighted=true] {

@@ -21,7 +21,7 @@ import blank from '../assets/images/blank.png';
 
 export const ChessPiece: React.FC<ChessPieceProps> = (props) => {
 
-    var source;
+    let source;
 
     switch (props.type) {
         case 'p':
